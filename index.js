@@ -21,8 +21,10 @@ app.post('/new-message', function(req, res) {
 
   const messageBody = message.text.toLowerCase()
 
+  if (!message) { return res.end() }
+
   // if no message or no matteo, reply nothing
-  if (messageBody.indexOf('/scam matteo') > 0 ) {
+  if (messageBody.indexOf('/scam matteo') >= 0 ) {
     // if matteo, send a reply
     axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
@@ -36,10 +38,23 @@ app.post('/new-message', function(req, res) {
         console.log('Error :', err)
         res.end('Error :' + err)
       })
-  } else if (messageBody.indexOf('who are you Johny ?')) {
+  } else if (messageBody.indexOf('who are you Johny ?') >= 0) {
     axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
       text: 'I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.'
+    })
+      .then(response => {
+        console.log('Message posted')
+        res.end('ok')
+      })
+      .catch(err => {
+        console.log('Error :', err)
+        res.end('Error :' + err)
+      })
+  } else if (messageBody.indexOf("Hows it going") >= 0) {
+    axios.post(SEND_MESSAGE_URL, {
+      chat_id: message.chat.id,
+      text: "It's going FANTASTIC. Bitcoin just hit 10 000 I am feeling great."
     })
       .then(response => {
         console.log('Message posted')
