@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 })); // for parsing application/x-www-form-urlencoded
 
 const TEL_KEY = process.env.TEL_KEY
-const SEND_MESSAGE_URL = 'https://api.telegram.org/bot${TEL_KEY}/sendMessage'
+const SEND_MESSAGE_URL = `https://api.telegram.org/bot${TEL_KEY}/sendMessage`
 
 //This is the route the API will call
 app.post('/new-message', function(req, res) {
@@ -46,5 +46,5 @@ app.post('/new-message', function(req, res) {
 
 // Finally, start our server
 app.listen(process.env.port || 3000, function() {
-  console.log('Telegram app listening on port ${process.env.port}!');
+  console.log(`Telegram app listening on port ${process.env.port}!`);
 });
