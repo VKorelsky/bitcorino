@@ -20,6 +20,7 @@ app.post('/new-message', function(req, res) {
   const {message} = req.body
 
   const messageBody = message.text.toLowerCase()
+  console.log(messageBody)
 
   if (!message) { return res.end() }
 
