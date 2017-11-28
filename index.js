@@ -38,7 +38,7 @@ app.post('/new-message', function(req, res) {
     return res.end()
   }
 
-  function sendMessage (chatId, messageContent) {
+  function sendMessage (messageContent) {
     axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
       text: messageContent
