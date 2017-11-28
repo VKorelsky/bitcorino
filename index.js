@@ -14,69 +14,47 @@ app.use(bodyParser.urlencoded({
 const TEL_KEY = process.env.TEL_KEY
 const SEND_MESSAGE_URL = `https://api.telegram.org/bot${TEL_KEY}/sendMessage`
 
-//This is the route the API will call
+// this is our hook, messages arrive here
 app.post('/new-message', function(req, res) {
   // message object has text and chat fields. chat has an ID, which is the id of the chat we are in
   const {message} = req.body
 
+  // debugging purposes
   console.log("MESSAGE-- " +  message.text)
 
+  // if no message, reply nothing
   if (!message || !message.text) { return res.end() }
   const messageBody = message.text
 
-
-  // if no message or no matteo, reply nothing
+  // ROUTING
   if (messageBody.indexOf('/scam matteo') >= 0 ) {
-    console.log(1)
-    // if matteo, send a reply
-    axios.post(SEND_MESSAGE_URL, {
-      chat_id: message.chat.id,
-      text: 'SCAM!!'
-    })
-      .then(response => {
-        console.log('Message posted')
-        res.end('ok')
-      })
-      .catch(err => {
-        console.log('Error :', err)
-        res.end('Error :' + err)
-      })
+      sendMessage(message.chat.id, 'SCAM!!')
   } else if (messageBody.indexOf('who are you Johny ?') >= 0) {
-    console.log(2)
-    axios.post(SEND_MESSAGE_URL, {
-      chat_id: message.chat.id,
-      text: 'I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.'
-    })
-      .then(response => {
-        console.log('Message posted')
-        res.end('ok')
-      })
-      .catch(err => {
-        console.log('Error :', err)
-        res.end('Error :' + err)
-      })
+      sendMessage(message.chat.id, 'I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.')
   } else if (messageBody.indexOf("Hows it going") >= 0) {
-    console.log(3)
-    axios.post(SEND_MESSAGE_URL, {
-      chat_id: message.chat.id,
-      text: "It's going FANTASTIC. Bitcoin just hit 10 000 I am feeling great."
-    })
-      .then(response => {
-        console.log('Message posted')
-        res.end('ok')
-      })
-      .catch(err => {
-        console.log('Error :', err)
-        res.end('Error :' + err)
-      })
+      sendMessage(message.chat.id, "It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
   } else {
     // if nothing matches, send nothing
     return res.end()
   }
-
 });
 
-// Finally, start our server
+function sendMessage (chatId, messageContent) {
+  axios.post(SEND_MESSAGE_URL, {
+    chat_id: chatId,
+    text: messageContent
+  })
+    .then(response => {
+      console.log('Message posted')
+      res.end('ok')
+    })
+    .catch(err => {
+      console.log('Error :', err)
+      res.end('Error :' + err)
+    })
+}
+
+// Finally, start the server
 app.listen(process.env.PORT || 3000, function() {
-  console.log(`Telegram app listening on port ${process.env.PORT}!`);
+  console.log(`Telegram app listening on port ${process.env.PORT || 3000}!`);
 });
