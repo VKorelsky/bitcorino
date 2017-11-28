@@ -19,11 +19,10 @@ app.post('/new-message', function(req, res) {
   // message object has text and chat fields. chat has an ID, which is the id of the chat we are in
   const {message} = req.body
 
+  if (!message) { return res.end() }
   const messageBody = message.text.toLowerCase()
 
   console.log(messageBody)
-
-  if (!message) { return res.end() }
 
   // if no message or no matteo, reply nothing
   if (messageBody.indexOf('/scam matteo') >= 0 ) {
