@@ -15,7 +15,11 @@ const TEL_KEY = process.env.TEL_KEY
 const SEND_MESSAGE_URL = 'https://api.telegram.org/bot${TEL_KEY}/sendMessage'
 
 //This is the route the API will call
-app.post('/scam', function(req, res) {
+app.post('/new-message', function(req, res) {
+  console.log(res)
+  console.log(req)
+  console.log(req.body)
+  
   // message object has text and chat fields. chat has an ID, which is the id of the chat we are in
   const {message} = req.body
 
