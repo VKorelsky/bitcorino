@@ -28,31 +28,33 @@ app.post('/new-message', function(req, res) {
 
   // ROUTING
   if (messageBody.indexOf('/scam matteo') >= 0 ) {
-      sendMessage(message.chat.id, 'SCAM!!')
+      sendMessage('SCAM!!')
   } else if (messageBody.indexOf('who are you Johny ?') >= 0) {
-      sendMessage(message.chat.id, 'I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.')
+      sendMessage('I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.')
   } else if (messageBody.indexOf("Hows it going") >= 0) {
-      sendMessage(message.chat.id, "It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
+      sendMessage("It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
   } else {
     // if nothing matches, send nothing
     return res.end()
   }
+
+  function sendMessage (chatId, messageContent, res) {
+    axios.post(SEND_MESSAGE_URL, {
+      chat_id: message.chat.id,
+      text: messageContent
+    })
+      .then(response => {
+        console.log('Message posted')
+        res.end('ok')
+      })
+      .catch(err => {
+        console.log('Error :', err)
+        res.end('Error :' + err)
+      })
+  }
 });
 
-function sendMessage (chatId, messageContent) {
-  axios.post(SEND_MESSAGE_URL, {
-    chat_id: chatId,
-    text: messageContent
-  })
-    .then(response => {
-      console.log('Message posted')
-      res.end('ok')
-    })
-    .catch(err => {
-      console.log('Error :', err)
-      res.end('Error :' + err)
-    })
-}
+
 
 // Finally, start the server
 app.listen(process.env.PORT || 3000, function() {
