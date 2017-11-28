@@ -19,24 +19,40 @@ app.post('/new-message', function(req, res) {
   // message object has text and chat fields. chat has an ID, which is the id of the chat we are in
   const {message} = req.body
 
+  const messageBody = message.text.toLowerCase()
+
   // if no message or no matteo, reply nothing
-  if (!message || message.text.toLowerCase().indexOf('matteo') < 0) {
-    return res.end()
+  if (messageBody.indexOf('/scam matteo') > 0 ) {
+    // if matteo, send a reply
+    axios.post(SEND_MESSAGE_URL, {
+      chat_id: message.chat.id,
+      text: 'SCAM!!'
+    })
+      .then(response => {
+        console.log('Message posted')
+        res.end('ok')
+      })
+      .catch(err => {
+        console.log('Error :', err)
+        res.end('Error :' + err)
+      })
+  } else if (messageBody.indexOf('who are you Johny ?')) {
+    axios.post(SEND_MESSAGE_URL, {
+      chat_id: message.chat.id,
+      text: 'I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.'
+    })
+      .then(response => {
+        console.log('Message posted')
+        res.end('ok')
+      })
+      .catch(err => {
+        console.log('Error :', err)
+        res.end('Error :' + err)
+      })
   }
 
-  // if matteo, send a reply
-  axios.post(SEND_MESSAGE_URL, {
-    chat_id: message.chat.id,
-    text: 'SCAM!!'
-  })
-    .then(response => {
-      console.log('Message posted')
-      res.end('ok')
-    })
-    .catch(err => {
-      console.log('Error :', err)
-      res.end('Error :' + err)
-    })
+  // if nothing matches, send nothing
+  return res.end()
 
 });
 
