@@ -20,12 +20,14 @@ app.post('/new-message', function(req, res) {
   const {message} = req.body
 
   const messageBody = message.text.toLowerCase()
+
   console.log(messageBody)
 
   if (!message) { return res.end() }
 
   // if no message or no matteo, reply nothing
   if (messageBody.indexOf('/scam matteo') >= 0 ) {
+    console.log(1)
     // if matteo, send a reply
     axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
@@ -40,6 +42,7 @@ app.post('/new-message', function(req, res) {
         res.end('Error :' + err)
       })
   } else if (messageBody.indexOf('who are you Johny ?') >= 0) {
+    console.log(2)
     axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
       text: 'I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.'
@@ -53,6 +56,7 @@ app.post('/new-message', function(req, res) {
         res.end('Error :' + err)
       })
   } else if (messageBody.indexOf("Hows it going") >= 0) {
+    console.log(3)
     axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
       text: "It's going FANTASTIC. Bitcoin just hit 10 000 I am feeling great."
@@ -65,10 +69,10 @@ app.post('/new-message', function(req, res) {
         console.log('Error :', err)
         res.end('Error :' + err)
       })
+  } else () {
+    // if nothing matches, send nothing
+    return res.end()
   }
-
-  // if nothing matches, send nothing
-  return res.end()
 
 });
 
