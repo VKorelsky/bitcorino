@@ -19,7 +19,7 @@ app.post('/new-message', function(req, res) {
   console.log(res)
   console.log(req)
   console.log(req.body)
-  
+
   // message object has text and chat fields. chat has an ID, which is the id of the chat we are in
   const {message} = req.body
 
@@ -45,6 +45,6 @@ app.post('/new-message', function(req, res) {
 });
 
 // Finally, start our server
-app.listen(3000, function() {
-  console.log('Telegram app listening on port 3000!');
+app.listen(process.env.port || 3000, function() {
+  console.log('Telegram app listening on port ${process.env.port}!');
 });
