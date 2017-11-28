@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 const Axios = require('axios')
 const Matrix = require('./matrix.js')
 
+regression = Matrix.new()
+
 // load keys
 require('dotenv').config()
 
@@ -37,7 +39,9 @@ app.post('/new-message', function(req, res) {
   } else if (messageBody.indexOf("Hows it going") >= 0) {
       sendMessage("It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
   } else if (messageBody.indexOf("/regress") >= 0) {
-    regressCoeffs = Matrix.getCoeffs()
+    regressCoeffs = Matrix.getSummary()
+
+    // turn the map into a string and return that
     sendMessage(regressCoeffs)
   } else {
     // if nothing matches, send nothing
@@ -61,7 +65,6 @@ app.post('/new-message', function(req, res) {
       })
   }
 });
-
 
 
 // Finally, start the server
