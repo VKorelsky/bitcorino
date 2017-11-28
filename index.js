@@ -29,7 +29,9 @@ app.post('/new-message', function(req, res) {
   // ROUTING
   if (messageBody.indexOf('/scam matteo') >= 0 ) {
       sendMessage('SCAM!!')
-  } else if (messageBody.indexOf('who are you Johny ?') >= 0) {
+  } else if (messageBody.indexOf('/scam') >= 0)
+      sendMessage("There's only one scam here ! his name is matteo")
+  else if (messageBody.indexOf('who are you Johny ?') >= 0) {
       sendMessage('I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.')
   } else if (messageBody.indexOf("Hows it going") >= 0) {
       sendMessage("It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
@@ -38,6 +40,8 @@ app.post('/new-message', function(req, res) {
     return res.end()
   }
 
+
+  // Execute
   function sendMessage (messageContent) {
     axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
