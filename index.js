@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-const axios = require('axios')
+const Axios = require('axios')
+const Matrix = require('./matrix.js')
 
 // load keys
 require('dotenv').config()
@@ -30,11 +31,14 @@ app.post('/new-message', function(req, res) {
   if (messageBody.indexOf('/scam matteo') >= 0 ) {
       sendMessage('SCAM!!')
   } else if (messageBody.indexOf('/scam') >= 0) {
-      sendMessage("There's only one scam here ! his name is matteo")
+      sendMessage("I smell 1 scammer here")
   } else if (messageBody.indexOf('who are you Johny ?') >= 0) {
       sendMessage('I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.')
   } else if (messageBody.indexOf("Hows it going") >= 0) {
       sendMessage("It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
+  } else if (messageBody.indexOf("/regress") >= 0) {
+    regressCoeffs = Matrix.getCoeffs()
+    sendMessage(regressCoeffs)
   } else {
     // if nothing matches, send nothing
     return res.end()
@@ -43,7 +47,7 @@ app.post('/new-message', function(req, res) {
 
   // Execute
   function sendMessage (messageContent) {
-    axios.post(SEND_MESSAGE_URL, {
+    Axios.post(SEND_MESSAGE_URL, {
       chat_id: message.chat.id,
       text: messageContent
     })
