@@ -69,7 +69,7 @@ app.post('/new-message', function(req, res) {
         console.log('Error :', err)
         res.end('Error :' + err)
       })
-  } else () {
+  } else {
     // if nothing matches, send nothing
     return res.end()
   }
