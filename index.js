@@ -15,7 +15,12 @@ app.use(bodyParser.urlencoded({
 })); // for parsing application/x-www-form-urlencoded
 
 const TEL_KEY = process.env.TEL_KEY
-const SEND_MESSAGE_URL = `https://api.telegram.org/bot${TEL_KEY}/sendMessage`
+
+const BASE_URL = `https://api.telegram.org/bot${TEL_KEY}/`
+const SEND_MESSAGE_URL = BASE_URL + `/sendMessage`
+const SEND_VOICE_MESSAGE_URL = BASE_URL + `/sendVoice`
+
+console.log(SEND_VOICE_MESSAGE_URL);
 
 // this is our hook, messages arrive here
 app.post('/new-message', function(req, res) {
@@ -38,6 +43,8 @@ app.post('/new-message', function(req, res) {
       sendMessage('I am Jonhy Bitcorino, from brooklyn ! I trade bitcoin and drink kawfee.')
   } else if (messageBody.indexOf("Hows it going") >= 0) {
       sendMessage("It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
+  } else if (messageBody.indexOf("What do you think of Martha") >= 0) {
+      sendVoiceMessage("martha")
   } else {
     // if nothing matches, send nothing
     return res.end()
@@ -54,6 +61,22 @@ app.post('/new-message', function(req, res) {
   // Execute
   function sendMessage (messageContent) {
     Axios.post(SEND_MESSAGE_URL, {
+      chat_id: message.chat.id,
+      text: messageContent
+    })
+      .then(response => {
+        console.log('Message posted')
+        res.end('ok')
+      })
+      .catch(err => {
+        console.log('Error :', err)
+        res.end('Error :' + err)
+      })
+  }
+});
+
+function sendVoiceMessage (audio_file_name) {
+    Axios.post(SEND_VOICE_MESSAGE_URL, {
       chat_id: message.chat.id,
       text: messageContent
     })
