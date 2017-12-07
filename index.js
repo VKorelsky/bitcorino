@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 
 const TEL_KEY = process.env.TEL_KEY
 
-const BASE_URL = `https://api.telegram.org/bot${TEL_KEY}/`
+const BASE_URL = `https://api.telegram.org/bot${TEL_KEY}`
 const SEND_MESSAGE_URL = BASE_URL + `/sendMessage`
 const SEND_VOICE_MESSAGE_URL = BASE_URL + `/sendVoice`
 
