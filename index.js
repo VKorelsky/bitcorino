@@ -30,8 +30,6 @@ app.post('/new-message', function(req, res) {
   // debugging purposes
   console.log("MESSAGE-- " +  message.text)
 
-app.use(express.static('audio'))
-
   // if no message, reply nothing
   if (!message || !message.text) { return res.end() }
   const messageBody = message.text
@@ -89,6 +87,11 @@ app.use(express.static('audio'))
     }
 });
 
+app.get('/martha', function(req, res){
+  console.log('yo')
+   let file = __dirname + '/audio/martha.mp3'
+   res.download(file)
+});
 
 
 // Finally, start the server
