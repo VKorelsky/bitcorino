@@ -78,7 +78,7 @@ app.post('/new-message', function(req, res) {
 function sendVoiceMessage (audio_file_name) {
     Axios.post(SEND_VOICE_MESSAGE_URL, {
       chat_id: message.chat.id,
-      text: messageContent
+      voice: 'https://salty-ridge-99287.herokuapp.com/audio/martha.mp3'
     })
       .then(response => {
         console.log('Message posted')
