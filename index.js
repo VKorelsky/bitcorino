@@ -30,6 +30,8 @@ app.post('/new-message', function(req, res) {
   // debugging purposes
   console.log("MESSAGE-- " +  message.text)
 
+app.use(express.static('audio'))
+
   // if no message, reply nothing
   if (!message || !message.text) { return res.end() }
   const messageBody = message.text
@@ -54,9 +56,6 @@ app.post('/new-message', function(req, res) {
   //
   //   // turn the map into a string and return that
   //   sendMessage(regressCoeffs)
-  //
-
-
 
   // Execute
   function sendMessage (messageContent) {
@@ -89,6 +88,8 @@ app.post('/new-message', function(req, res) {
         })
     }
 });
+
+
 
 // Finally, start the server
 app.listen(process.env.PORT || 3000, function() {
