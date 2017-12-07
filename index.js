@@ -44,7 +44,7 @@ app.post('/new-message', function(req, res) {
   } else if (messageBody.indexOf("Hows it going") >= 0) {
       sendMessage("It's going FANTASTIC. Bitcoin just hit 10 000 & I am feeling great.")
   } else if (messageBody.indexOf("What do you think of Martha") >= 0) {
-      sendVoiceMessage("martha.mp3")
+      sendVoiceMessage("martha")
   } else {
     // if nothing matches, send nothing
     return res.end()
@@ -74,7 +74,7 @@ app.post('/new-message', function(req, res) {
   function sendVoiceMessage (audio_file_name) {
       Axios.post(SEND_VOICE_MESSAGE_URL, {
         chat_id: message.chat.id,
-        voice: `https://salty-ridge-99287.herokuapp.com/audio/${audio_file_name}`
+        voice: `https://salty-ridge-99287.herokuapp.com/${audio_file_name}`
       })
         .then(response => {
           console.log('Message posted')
@@ -88,7 +88,6 @@ app.post('/new-message', function(req, res) {
 });
 
 app.get('/martha', function(req, res){
-  console.log('yo')
    let file = __dirname + '/audio/martha.mp3'
    res.download(file)
 });
